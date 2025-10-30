@@ -1,0 +1,24 @@
+
+
+services:
+  backend:
+    build: ./backend
+    container_name: quiz-backend
+    ports:
+      - "5000:5000"
+    networks:
+      - quiz-net
+
+  frontend:
+    build: ./frontend
+    container_name: quiz-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - quiz-net
+
+networks:
+  quiz-net:
+    driver: bridge

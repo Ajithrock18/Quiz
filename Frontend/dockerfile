@@ -1,0 +1,10 @@
+# Use lightweight Nginx image
+FROM nginx:alpine
+
+# Copy frontend files to Nginx's default static directory
+COPY . /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Nginx automatically starts as the container's default command

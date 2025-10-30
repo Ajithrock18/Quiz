@@ -1,6 +1,7 @@
 async function loadQuestions() {
   try {
     const res = await fetch("http://localhost:5000/questions");
+    const backendURL = "http://quiz-backend:5000"; // Docker service name
     const questions = await res.json();
     displayQuestions(questions);
   } catch (error) {
