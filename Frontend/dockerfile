@@ -1,10 +1,6 @@
-# Use lightweight Nginx image
 FROM nginx:alpine
-
-# Copy frontend files to Nginx's default static directory
-COPY . /usr/share/nginx/html
-
-# Expose port 80
+WORKDIR /usr/share/nginx/html
+COPY . .
+RUN mv index.html quiz.html && mv login.html index.html
 EXPOSE 80
-
-# Nginx automatically starts as the container's default command
+CMD ["nginx", "-g", "daemon off;"]

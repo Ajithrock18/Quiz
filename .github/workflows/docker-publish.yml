@@ -1,6 +1,5 @@
 name: Build and push Docker images
 
-# Run on pushes to main (adjust branch as needed)
 on:
   push:
     branches:
@@ -20,30 +19,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Log in to Docker Hub using the token stored in secrets
+      - name: Set up QEMU (optional cross-platform)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build & push backend image
-      - name: Build and push backend image
+      - name: Build & push backend image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./Backend
+          file: ./Backend/Dockerfile
           push: true
           tags: |
             ${{ env.DOCKERHUB_NAMESPACE }}/project1-backend:latest
             ${{ env.DOCKERHUB_NAMESPACE }}/project1-backend:${{ github.sha }}
 
-      # Build & push frontend image
-      - name: Build and push frontend image
+      - name: Build & push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./Frontend
+          file: ./Frontend/Dockerfile
           push: true
           tags: |
             ${{ env.DOCKERHUB_NAMESPACE }}/project1-frontend:latest
