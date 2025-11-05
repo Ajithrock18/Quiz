@@ -3,7 +3,7 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - master   # Trigger when pushing to master branch
+      - master  # Update to 'main' if needed
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      DOCKERHUB_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_NAMESPACE: ajithrock  # Explicit Docker Hub namespace
 
     steps:
       - name: Checkout repository
@@ -38,8 +38,8 @@ jobs:
           file: ./Backend/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/project1-backend:latest
-            ${{ env.DOCKERHUB_NAMESPACE }}/project1-backend:${{ github.sha }}
+            ajithrock/project1-backend:latest
+            ajithrock/project1-backend:${{ github.sha }}
 
       - name: Build & push Frontend image
         uses: docker/build-push-action@v5
@@ -48,5 +48,5 @@ jobs:
           file: ./Frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/project1-frontend:latest
-            ${{ env.DOCKERHUB_NAMESPACE }}/project1-frontend:${{ github.sha }}
+            ajithrock/project1-frontend:latest
+            ajithrock/project1-frontend:${{ github.sha }}
