@@ -49,34 +49,36 @@
   </div>
 
   <script>
+    function onLoginSuccess() {
+        window.location.href = 'quiz.html';
+    }
+
     async function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const message = document.getElementById('message');
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const message = document.getElementById('message');
 
-      try {
-        const res = await fetch('http://localhost:5000/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-        const data = await res.json();
+        try {
+            const res = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
 
-        if (res.ok) {
-          message.style.color = 'green';
-          message.textContent = data.message;
-          // Redirect to quiz page
-          setTimeout(() => {
-            window.location.href = 'quiz.html';
-          }, 1000);
-        } else {
-          message.style.color = 'red';
-          message.textContent = data.message;
+            if (res.ok) {
+                message.style.color = 'green';
+                message.textContent = data.message;
+                // Using the new onLoginSuccess function instead of inline redirect
+                setTimeout(onLoginSuccess, 1000);
+            } else {
+                message.style.color = 'red';
+                message.textContent = data.message;
+            }
+        } catch (err) {
+            message.style.color = 'red';
+            message.textContent = 'Server error';
         }
-      } catch (err) {
-        message.style.color = 'red';
-        message.textContent = 'Server error';
-      }
     }
   </script>
 </body>
